@@ -1,4 +1,7 @@
 var request = require('request');
+var db = require('../database-mongo');
+const amazon = require('../helpers/amazonHelp');
+
 
 let getRedditBooks = () => {
   let options = {
@@ -12,7 +15,9 @@ let getRedditBooks = () => {
       throw error;
     }else if(response) {
       let list = proccessList(body);
-      console.log(list);
+      list.forEach((book) => {
+        db.searchTitle(book, amazon.amazonRequest);
+      });
     }
   });
 }
@@ -26,15 +31,17 @@ let proccessList = (body) => {
     index = body.indexOf('**');
     let entry = body.slice(0, index);
     if(entry.length < 200 && entry.indexOf(`, by `) !== -1){
+      entry = entry.replace('\'', "");
       let tuple = entry.split(`, by `);
       list.push(tuple);
     }
     body = body.slice(index + 2);
     index = body.indexOf('**');
   }
-  console.log(list.length);
-  return list;
+  return list.slice(3);
 } 
+
+
 
 
 module.exports.getRedditBooks = getRedditBooks;

@@ -17,6 +17,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "amazon-product-api": "^0.4.4",
     "angular": "^1.6.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.0",

@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
+const amazon = require('../helpers/amazonHelp');
+
 
 var db = mongoose.connection;
 
@@ -12,9 +14,11 @@ db.once('open', function() {
 });
 
 var listSchema = mongoose.Schema({
-  title: String,
+  reddittitle: String,
   author: String,
-  imgurl: String
+  title: String,
+  url: String,
+  img: String
 });
 
 var Book = mongoose.model('Books', listSchema);
@@ -32,9 +36,26 @@ var selectAll = function(callback) {
 let search = (callback) => {
   Book.
   find().
-  limit(25).
   exec(callback);
 };
 
+let searchTitle = (book, callback) => {
+  Book.find({reddittitle: book[0]}, (err, books) => {
+    if(books.length){
+      callback('Name already exists', null);
+    } else { 
+      callback(null, book);
+    }
+  });
+}
+
+let save = (book) => {
+  console.log('SAVING THIS: ' + book);
+  let newModel = new Book({author: book.author, title: book.title, url: book.url, img: book.img, reddittitle: book.reddittitle});
+  newModel.save();
+}
+
 module.exports.search = search;
 module.exports.selectAll = selectAll;
+module.exports.searchTitle = searchTitle;
+module.exports.save = save;

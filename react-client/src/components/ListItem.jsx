@@ -2,7 +2,8 @@ import React from 'react';
 
 const ListItem = (props) => (
   <div>
-    { props.item.description }
+    <a href={props.book.url}>{props.book.title}</a>
+    <span> by {props.book.author}</span>
   </div>
 )
 
