@@ -11,15 +11,16 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+var listSchema = mongoose.Schema({
+  title: String,
+  author: String,
+  imgurl: String
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Book = mongoose.model('Books', listSchema);
 
 var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
+  Book.find({}, function(err, items) {
     if(err) {
       callback(err, null);
     } else {
@@ -28,4 +29,12 @@ var selectAll = function(callback) {
   });
 };
 
+let search = (callback) => {
+  Book.
+  find().
+  limit(25).
+  exec(callback);
+};
+
+module.exports.search = search;
 module.exports.selectAll = selectAll;
