@@ -27,7 +27,7 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <h1>/r/Books Reading List</h1>
+      <h1>What /r/Books Is Reading This Week!</h1>
       <List books={this.state.books}/>
     </div>)
   }

@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var db = require('../database-mongo');
+var db = require('../database');
 const reddit = require('../helpers/redditHelp');
 
 var app = express();
@@ -18,7 +18,8 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 // });
 
 app.get('/books', function (req, res) {
-  reddit.getRedditBooks();
+  reddit.redditGet();
+  //reddit.getRedditBooks();
   db.search((err, repo)=>{
     if (err) return handleError(err);
     res.json(repo);

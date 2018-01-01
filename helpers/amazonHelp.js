@@ -1,5 +1,5 @@
-var amazon = require('amazon-product-api');
-var db = require('../database-mongo');
+const amazon = require('amazon-product-api');
+const db = require('../database');
 
 let amazonRequest = (err, book) => {
   if(err){ console.log(err); }
@@ -20,7 +20,7 @@ let amazonRequest = (err, book) => {
       responseGroup: 'ItemAttributes,Offers,Images'
     }).then(function(results){
       let entry = {
-        img: results[0].LargeImage[0].URL[0],
+        img: results[0].MediumImage[0].URL[0],
         url: results[0].DetailPageURL[0],
         title: results[0].ItemAttributes[0].Title[0],
         author: results[0].ItemAttributes[0].Author[0],
@@ -29,7 +29,7 @@ let amazonRequest = (err, book) => {
       console.log(entry);
       db.save(entry);
     }).catch(function(err){
-      console.log(err);
+      console.log('error for: ' + book);
     });
   }
 }

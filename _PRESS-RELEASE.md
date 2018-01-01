@@ -18,27 +18,38 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  /r/Books Weekly Reading List
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+ 	For someone who's looking for suggestions for something to read, i've compiled a list for you.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  Pulls the books from /r/books weekly what are you reading thread and compiles them in a list with amazon aggregate links.
+  The benefit is it's a quick way to check out what people are reading, and if something sparks your interest you can quickly buy the book.
+  The other benefit is the links are monetized, so if people buy books I get money.
 
 ## Problem ##
   > Describe the problem your product solves.
+  It solves the problem of you having to go to reddit, reading the thread to find the books people have posted, and then searching the book on google to find it on  amazon.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  It is a list of links to buy the books people have posted.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  'Books are cool.'
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  Just click on books
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  It's great, I clicked on a book title that sounded good and read a book.
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  You should probably go buy some books or read some books or something.
