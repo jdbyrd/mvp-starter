@@ -29,7 +29,7 @@ let amazonRequest = (err, book) => {
       console.log(entry);
       db.save(entry);
     }).catch(function(err){
-      console.log('error for: ' + book);
+      console.log('error adding [' + book + '] using amazon api');
     });
   }
 }

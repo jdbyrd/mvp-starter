@@ -42,7 +42,7 @@ let search = (callback) => {
 let searchTitle = (book, callback) => {
   Book.find({reddittitle: book[0]}, (err, books) => {
     if(books.length){
-      callback('Name already exists', null);
+      callback('Title already in list', null);
     } else { 
       callback(null, book);
     }

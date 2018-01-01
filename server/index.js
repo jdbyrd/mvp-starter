@@ -18,8 +18,7 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 // });
 
 app.get('/books', function (req, res) {
-  reddit.redditGet();
-  //reddit.getRedditBooks();
+  reddit.getRedditBooks();
   db.search((err, repo)=>{
     if (err) return handleError(err);
     res.json(repo);

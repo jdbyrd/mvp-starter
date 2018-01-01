@@ -2,29 +2,9 @@ const request = require('request');
 const db = require('../database');
 const amazon = require('../helpers/amazonHelp');
 
-let redditGet = () => {
-
-  let options = {
-    url: 'http://redd.it/7m0jzy',
-    headers: {
-      'User-Agent': 'request',
-    }
-  };
-  request(options, (error, response, body) => {
-    if(error) {
-      throw error;
-    }else if(response) {
-      let list = proccessHtml(body);
-      list.forEach((book) => {
-        db.searchTitle(book, amazon.amazonRequest);
-      });
-    }
-  });
-}
-
 let getRedditBooks = () => {
   let options = {
-    url: 'https://www.reddit.com/r/books/comments/7m0jzy/what_books_are_you_reading_this_week_december_25/.json',
+    url: 'https://www.reddit.com/r/books',
     headers: {
       'User-Agent': 'request',
     }
@@ -33,7 +13,24 @@ let getRedditBooks = () => {
     if(error) {
       throw error;
     }else if(response) {
-      let list = proccessList(body);
+      let article = getLink(body);
+      getRedditComments(article);
+    }
+  });
+}
+
+let getRedditComments = (article) => {
+  let options = {
+    url: `http://redd.it/${article}`,
+    headers: {
+      'User-Agent': 'request',
+    }
+  };
+  request(options, (error, response, body) => {
+    if(error) {
+      throw error;
+    }else if(response) {
+      let list = proccessComments(body);
       list.forEach((book) => {
         db.searchTitle(book, amazon.amazonRequest);
       });
@@ -41,30 +38,16 @@ let getRedditBooks = () => {
   });
 }
 
-let proccessList = (body) => {
-  let list = [];
-  let index = body.indexOf('**');
-  
-  while(index !== -1){
-    body = body.slice(index + 2);
-    index = body.indexOf('**');
-    let entry = body.slice(0, index);
-    if(entry.length < 200 && entry.indexOf(`, by `) !== -1){
-      entry = entry.replace('\'', "");
-      let tuple = entry.split(`, by `);
-      list.push(tuple);
-    }
-    body = body.slice(index + 2);
-    index = body.indexOf('**');
-  }
-  console.log(list.length);
-  return list.slice(3);
-} 
+let getLink = (body) => {
+  let index = body.indexOf(`">What Books Are You Reading This Week?`);
+  let article = body.slice(index-6, index);
+  return article;
+}
 
-let proccessHtml = (body) => {
+let proccessComments = (body) => {
   let list = [];
   let index = body.indexOf(`<strong>`);
-  
+
   while(index !== -1){
     body = body.slice(index + 8);
     index = body.indexOf('</strong>');
@@ -81,4 +64,3 @@ let proccessHtml = (body) => {
 } 
 
 module.exports.getRedditBooks = getRedditBooks;
-module.exports.redditGet = redditGet;
