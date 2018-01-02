@@ -23,3 +23,8 @@ app.listen(port, function() {
   console.log(`listening on port ${port}!`);
 });
 
+module.exports = {
+  awsId: process.env.awsId,
+  awsSecret: process.env.awsSecret,
+  mongoPwd: process.env.mongoPwd
+};
