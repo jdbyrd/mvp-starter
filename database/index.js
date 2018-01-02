@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 const config = require('../config.js');
-const server = require('../server/index')
-let mongoPass = server.mongoPwd || config.mongoPwd;
+let mongoPass = process.env.mongoPwd || config.mongoPwd;
 mongoose.connect(`mongodb://james:${mongoPass}@ds139067.mlab.com:39067/redditbooks`);
 const amazon = require('../helpers/amazonHelp');
 

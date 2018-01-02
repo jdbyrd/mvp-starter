@@ -1,15 +1,14 @@
 const amazon = require('amazon-product-api');
 const db = require('../database');
 const config = require('../config.js');
-const server = require('../server/index')
 
 
 let amazonRequest = (err, book) => {
   if(err){ console.log(err); }
   else {  
     var client = amazon.createClient({
-      awsId: server.awsId ||`${config.awsId}`,
-      awsSecret: server.awsSecret || `${config.awsSecret}`,
+      awsId: process.env.awsId ||`${config.awsId}`,
+      awsSecret: process.env.awsSecret || `${config.awsSecret}`,
       awsTag: "redditbooks07-20"
     });
 
