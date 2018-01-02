@@ -5,7 +5,7 @@ const reddit = require('../helpers/redditHelp');
 
 var app = express();
 
-app.use(express.static(__dirname + '/../react-client/dist'));
+app.use(express.static(__dirname + '/../client/dist'));
 
 app.get('/books', function (req, res) {
   reddit.getRedditLink()
@@ -17,7 +17,9 @@ app.get('/books', function (req, res) {
   });
 });
 
-app.listen(3000, function() {
-  console.log('listening on port 3000!');
+let port = process.env.PORT || 1128;
+
+app.listen(port, function() {
+  console.log(`listening on port ${port}!`);
 });
 

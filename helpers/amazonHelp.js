@@ -17,7 +17,7 @@ let amazonRequest = (err, book) => {
       responseGroup: 'ItemAttributes,Offers,Images'
     }).then(function(results){
       let entry = {
-        img: results[0].MediumImage[0].URL[0],
+        img: results[0].SmallImage[0].URL[0],
         url: results[0].DetailPageURL[0],
         title: results[0].ItemAttributes[0].Title[0],
         author: results[0].ItemAttributes[0].Author[0],
