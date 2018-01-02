@@ -7,8 +7,8 @@ let amazonRequest = (err, book) => {
   if(err){ console.log(err); }
   else {  
     var client = amazon.createClient({
-      awsId: `${config.awsId}`,
-      awsSecret: `${config.awsSecret}`,
+      awsId: process.env.awsId ||`${config.awsId}`,
+      awsSecret: process.env.awsSecret || `${config.awsSecret}`,
       awsTag: "redditbooks07-20"
     });
 
