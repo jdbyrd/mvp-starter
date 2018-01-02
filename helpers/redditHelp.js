@@ -1,47 +1,69 @@
 const request = require('request');
 const db = require('../database');
 const amazon = require('../helpers/amazonHelp');
+const cron = require('node-cron');
+
+cron.schedule('*/1 * * * *', function(){
+  getRedditBooks();
+});
 
 let getRedditBooks = () => {
-  let options = {
-    url: 'https://www.reddit.com/r/books',
-    headers: {
-      'User-Agent': 'request',
-    }
-  };
-  request(options, (error, response, body) => {
-    if(error) {
-      throw error;
-    }else if(response) {
-      let article = getLink(body);
-      getRedditComments(article);
-    }
+  getRedditLink()
+  .then(getRedditComments)
+  .then((list) => {
+    Promise.all(list.map(db.searchTitle))
+  });
+}
+
+let getRedditLink = () => {
+  return new Promise ((resolve, reject) => {
+    let options = {
+      url: 'https://www.reddit.com/r/books',
+      headers: {
+        'User-Agent': 'request',
+      }
+    };
+    request(options, (error, response, body) => {
+      if(error) {
+        reject(error);
+      }else if(response) {
+        let article = getLink(body);
+        resolve(article);
+      }
+    });
   });
 }
 
 let getRedditComments = (article) => {
-  let options = {
-    url: `http://redd.it/${article}`,
-    headers: {
-      'User-Agent': 'request',
-    }
-  };
-  request(options, (error, response, body) => {
-    if(error) {
-      throw error;
-    }else if(response) {
-      let list = proccessComments(body);
-      list.forEach((book) => {
-        db.searchTitle(book, amazon.amazonRequest);
-      });
-    }
+  return new Promise((resolve, reject) => {
+    let options = {
+      url: `http://redd.it/${article[0]}`,
+      headers: {
+        'User-Agent': 'request',
+      }
+    };
+    request(options, (error, response, body) => {
+      if(error) {
+        reject(error);
+      }else if(response) {
+        let list = proccessComments(body);
+        list.forEach((book) => {
+          book[2] = article[1];
+          //db.searchTitle(book, amazon.amazonRequest);
+        });
+        resolve(list);
+      }
+    });
   });
 }
 
 let getLink = (body) => {
   let index = body.indexOf(`">What Books Are You Reading This Week?`);
   let article = body.slice(index-6, index);
-  return article;
+  body = body.slice(index+40);
+  index = body.indexOf(`</a`);
+  let date = body.slice(0, index);
+  return [article, date];
 }
 
 let proccessComments = (body) => {
@@ -64,3 +86,5 @@ let proccessComments = (body) => {
 } 
 
 module.exports.getRedditBooks = getRedditBooks;
+module.exports.getRedditLink = getRedditLink;
+module.exports.getRedditComments = getRedditComments;

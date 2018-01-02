@@ -7,21 +7,13 @@ var app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-// app.get('/books', function (req, res) {
-//   db.selectAll(function(err, data) {
-//     if(err) {
-//       res.sendStatus(500);
-//     } else {
-//       res.json(data);
-//     }
-//   });
-// });
-
 app.get('/books', function (req, res) {
-  reddit.getRedditBooks();
-  db.search((err, repo)=>{
-    if (err) return handleError(err);
-    res.json(repo);
+  reddit.getRedditLink()
+  .then(article => {
+    db.search(article[1], (err, repo)=>{
+      if (err) return handleError(err);
+      res.json(repo);
+    });
   });
 });
 

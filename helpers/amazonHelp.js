@@ -4,9 +4,6 @@ const db = require('../database');
 let amazonRequest = (err, book) => {
   if(err){ console.log(err); }
   else {  
-    let title = book[0];
-    let author = book[1];
-
     var client = amazon.createClient({
       awsId: "AKIAJOSZ36QINFWY2HXA",
       awsSecret: "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",
@@ -24,7 +21,8 @@ let amazonRequest = (err, book) => {
         url: results[0].DetailPageURL[0],
         title: results[0].ItemAttributes[0].Title[0],
         author: results[0].ItemAttributes[0].Author[0],
-        reddittitle: book[0]
+        reddittitle: book[0],
+        date: book[2]
       };
       console.log(entry);
       db.save(entry);

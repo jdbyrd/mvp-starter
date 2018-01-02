@@ -18,11 +18,10 @@
   },
   "dependencies": {
     "amazon-product-api": "^0.4.4",
-    "angular": "^1.6.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.0",
     "mongoose": "^5.0.0-rc0",
-    "mysql": "^2.13.0",
+    "node-cron": "^1.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "reddit-oauth": "^1.1.1",
